@@ -1,5 +1,7 @@
 package model;
 
+import helpers.DateHelper;
+
 import java.util.Date;
 
 /**
@@ -13,6 +15,14 @@ public class Incident {
     private int vehiclePosition;
     private NonSubscriber nonSubscriber;
     private Core core;
+
+    public Incident(Date callDate, Date callTime, String description, int vehiclePosition, NonSubscriber nonSubscriber) {
+        this.callDate = callDate;
+        this.callTime = callTime;
+        this.description = description;
+        this.vehiclePosition = vehiclePosition;
+        this.nonSubscriber = nonSubscriber;
+    }
 
     public Date getCallDate() {
         return callDate;
@@ -68,5 +78,16 @@ public class Incident {
 
     public void setCore(Core core) {
         this.core = core;
+    }
+
+    @Override
+    public String toString() {
+        System.out.println(DateHelper.dateFormat(callDate));
+        System.out.println(DateHelper.timeFormat(callDate));
+        System.out.println(DateHelper.dateFormat(confrontationTime));
+        System.out.println(vehiclePosition);
+        System.out.println(nonSubscriber.getName());
+        System.out.println(description);
+        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + description;
     }
 }

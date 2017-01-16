@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roadside_assistance.RoadsideAssistanceController">
+
+    <GridPane alignment="center" hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+        </padding>
+
+        <Label alignment="TOP_LEFT" prefHeight="52.0" text="Περιγραφή" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label alignment="TOP_LEFT" prefHeight="52.0" text="Τύπος οχήματος" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+        <VBox alignment="BOTTOM_RIGHT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+            <TextArea fx:id="description" prefHeight="80.0" prefWidth="120.0" styleClass="text-input" />
+
+            <Label fx:id="descriptionError" text="Δεν δώσατε περιγραφή." textFill="red" visible="false" />
+        </VBox>
+
+        <ComboBox fx:id="vehicleType" promptText="Τύπος οχήματος" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </ComboBox>
+
+        <HBox alignment="BOTTOM_RIGHT" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <Button id="dark-blue" fx:id="callIncident" text="Κλήση Οδικής Βοήθειας" />
+        </HBox>
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+    </GridPane>
+
+</StackPane>

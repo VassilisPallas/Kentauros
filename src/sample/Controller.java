@@ -114,7 +114,11 @@ public class Controller implements Initializable {
         });
 
         callRoadsideAssistance.setOnAction(event -> {
-
+            try {
+                GoToOtherPage.roadsideAssistancePage(getClass(), (Stage) callRoadsideAssistance.getScene().getWindow());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -135,6 +139,6 @@ public class Controller implements Initializable {
     }
 
     private void goToRegisterPage() throws IOException {
-        GoToOtherPage.registerPage(getClass(), (Stage) registerButton.getScene().getWindow(), type, wholePrice, vehicle);
+        GoToOtherPage.registerPage(getClass(), (Stage) registerButton.getScene().getWindow(), type, wholePrice, vehicle, null);
     }
 }

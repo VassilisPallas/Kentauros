@@ -10,9 +10,20 @@ import java.util.Date;
  * Created by Giota on 16/1/2017.
  */
 public class DateHelper {
-    public static String dateFormat(Date date){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/YYYY");
-        return simpleDateFormat.format(date);
+    public static String dateFormat(Date date) {
+        if (date != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/YYYY");
+            return simpleDateFormat.format(date);
+        }
+        return "-";
+    }
+
+    public static String timeFormat(Date date) {
+        if (date != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            return simpleDateFormat.format(date);
+        }
+        return "-";
     }
 
     private static Date stringToDate(String dateStr) throws ParseException {

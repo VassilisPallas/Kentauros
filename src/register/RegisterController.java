@@ -86,6 +86,7 @@ public class RegisterController implements Initializable {
     private double price;
     private SubscriptionType type;
     private Vehicle vehicle;
+    private Incident incident;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -100,22 +101,26 @@ public class RegisterController implements Initializable {
                 Account account = new Account(phone.getText(), email.getText(), username.getText(), password.getText(), new Date(), subscriber);
                 subscriber.setAccount(account);
 
+                NonSubscriber nonSubscriber = subscriber;
+                incident.setNonSubscriber(nonSubscriber);
                 saveUser(subscriber);
                 saveSubscription(getSubscription());
                 saveAccount(account);
+                saveIncident(incident, nonSubscriber);
                 AlertBoxHelper.infoBox("Δημιουργία Χρήστη", "Η δημιουργία και η πληρωμή ολοκληρώθηκε.");
 
-                System.out.print("okkk");
+                // TODO: go to profile
             }
         });
     }
 
-    public void getData(double price, SubscriptionType type, Vehicle vehicle) {
+    public void getData(double price, SubscriptionType type, Vehicle vehicle, Incident incident) {
         this.price = price;
         this.type = type;
         this.vehicle = vehicle;
+        this.incident = incident;
 
-        priceLabel.setText(price + "€ " + type);
+        priceLabel.setText(price + "€ " + (type != null ? type : ""));
     }
 
     private static void addTextLimiter(final TextField tf, final int maxLength) {
@@ -198,6 +203,10 @@ public class RegisterController implements Initializable {
     private Subscription getSubscription() {
         Date expirationDate = null;
 
+        if (type == null) {
+            type = SubscriptionType.ANNUAL;
+        }
+
         switch (type) {
             case SEMI:
                 try {
@@ -234,5 +243,13 @@ public class RegisterController implements Initializable {
     private void saveAccount(Account account) {
         String content = account.toString();
         FileHelper.saveFile(username.getText() + "_account", content);
+    }
+
+    private void saveIncident(Incident incident, NonSubscriber subscriber) {
+        String username = "";
+        if (subscriber != null) {
+            username = subscriber.getName();
+        }
+        FileHelper.saveFile(username + "_incident", incident.toString());
     }
 }

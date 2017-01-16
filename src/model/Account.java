@@ -74,6 +74,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return phone + " " + email + " " + username + " " + password + " " + DateHelper.dateFormat(registrationDate) + " " + owner.getAccount().getUsername();
+        return phone + " " + email + " " + username + " " + password + " " + DateHelper.dateFormat(registrationDate);
     }
 }
