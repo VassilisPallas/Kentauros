@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<StackPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="login.LoginController">
+
+    <GridPane alignment="center" hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+        </padding>
+
+        <Label alignment="TOP_LEFT" prefHeight="52.0" text="Username" GridPane.rowIndex="0"/>
+
+        <Label alignment="TOP_LEFT" prefHeight="52.0" text="Κωδικός" GridPane.rowIndex="1"/>
+
+        <TextField fx:id="username" styleClass="text-input" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <PasswordField fx:id="password" styleClass="text-input" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label fx:id="loginError" text="Λάθος Στοιχεία" textFill="red" visible="false" GridPane.columnIndex="1"
+               GridPane.rowIndex="2"/>
+
+        <Button text="Είσοδος" fx:id="loginButton" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </GridPane>
+
+</StackPane>
