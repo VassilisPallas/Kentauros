@@ -26,7 +26,9 @@
 
         <Button fx:id="loginButton" text="Είσοδος στο σύστημα" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
-        <Button fx:id="callRoadsideAssistance" text="κλήση Οδικής Βοήθειας" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Button fx:id="callRoadsideAssistance" text="κλήση Οδικής Βοήθειας - μη εγγεργραμένοι" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+        <Button fx:id="roadAssistanceEmployeeLogin" text="Είσοδος Υπαλλήλου Οδικής Βοήθειας" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
         <GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
 

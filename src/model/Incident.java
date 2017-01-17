@@ -1,6 +1,7 @@
 package model;
 
 import helpers.DateHelper;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Date;
 
@@ -15,9 +16,9 @@ public class Incident {
     private int vehiclePosition;
     private NonSubscriber nonSubscriber;
     private Core core;
-    private boolean isSubscriber;
+    public Boolean isSubscriber;
 
-    public Incident(Date callDate, Date callTime, String description, int vehiclePosition, NonSubscriber nonSubscriber, boolean isSubscriber) {
+    public Incident(Date callDate, Date callTime, String description, int vehiclePosition, NonSubscriber nonSubscriber, Boolean isSubscriber) {
         this.callDate = callDate;
         this.callTime = callTime;
         this.description = description;
@@ -84,6 +85,6 @@ public class Incident {
 
     @Override
     public String toString() {
-        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + isSubscriber + " " + description;
+        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + isSubscriber + " " + description;
     }
 }

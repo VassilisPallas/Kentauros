@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<StackPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="employee_login.EmployeeLoginController">
+
+    <GridPane alignment="center" hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+        </padding>
+
+        <Label alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="171.0" text="Όνομα" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+        <TextField fx:id="name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label fx:id="nameError" text="Λάθος στοιχεία." textFill="red" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <HBox alignment="BOTTOM_RIGHT" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <Button fx:id="login" text="Σύνδεση" />
+        </HBox>
+
+    </GridPane>
+
+</StackPane>

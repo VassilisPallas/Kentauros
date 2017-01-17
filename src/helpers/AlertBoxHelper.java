@@ -3,7 +3,7 @@ package helpers;
 import javafx.scene.control.Alert;
 
 /**
- * Created by Giota on 16/1/2017.
+ * Created by User on 16/1/2017.
  */
 public class AlertBoxHelper {
 

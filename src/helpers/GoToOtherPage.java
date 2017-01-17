@@ -1,9 +1,12 @@
 package helpers;
 
+import employee.EmployeeController;
+import employee_login.EmployeeLoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import model.*;
 import profile.ProfileController;
 import register.RegisterController;
@@ -58,4 +61,27 @@ public class GoToOtherPage {
         Scene scene = new Scene(sceneMain, 380, 300);
         stage.setScene(scene);
     }
+
+    public static void employeeLoginPage(Class clazz, Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(clazz.getResource("/employee_login/employee_login.fxml"));
+        Parent sceneMain = loader.load();
+
+        stage.setTitle("Σύνδεση");
+        Scene scene = new Scene(sceneMain, 500, 400);
+        stage.setScene(scene);
+    }
+
+    public static void employeePage(Class clazz, Stage stage, Technician technician) throws IOException {
+        FXMLLoader loader = new FXMLLoader(clazz.getResource("/employee/employee.fxml"));
+        Parent sceneMain = loader.load();
+        EmployeeController controller = loader.getController();
+        controller.getData(technician);
+
+        stage.setTitle("Προφίλ");
+        Scene scene = new Scene(sceneMain, 380, 300);
+        stage.setScene(scene);
+    }
+
+
+
 }

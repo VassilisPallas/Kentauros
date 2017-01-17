@@ -1,7 +1,7 @@
 package helpers;
 
 /**
- * Created by Giota on 16/1/2017.
+ * Created by User on 16/1/2017.
  */
 public enum SubscriptionType {
     SEMI("Εξαμηνιαία"), ANNUAL("Ετήσια");

@@ -3,10 +3,11 @@ package helpers;
 import model.*;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.*;
 
 /**
- * Created by Giota on 16/1/2017.
+ * Created by User on 16/1/2017.
  */
 public class FileHelper {
     public static void saveFile(String name, String content) {
@@ -52,6 +53,7 @@ public class FileHelper {
         System.out.println(content);
         try {
             PrintWriter pw = new PrintWriter(new FileWriter(new File("src/files/" + title), true));
+            pw.println();
             pw.println(content);
             pw.close();
         } catch (IOException e) {
@@ -181,20 +183,111 @@ public class FileHelper {
                 if (currentFile.isDirectory()) {
                     searchFilesForSubscriber(currentFile, pattern);
                 } else {
-                    Scanner scanner = new Scanner(currentFile);
-                    if (scanner.findWithinHorizon(pattern, 0) != null) {
-                        String[] array = currentFile.getName().split("\\.");
-                        subscriber = getSubscriber(array[0]);
-                        subscriber.setAccount(getUserAccount(array[0]));
-                        ArrayList<Subscription> subscriptions = new ArrayList<>();
-                        subscriptions.add(getSubscription(array[0]));
-                        subscriber.setSubscriptions(subscriptions);
-                        break;
+                    if (!currentFile.getName().contains("incident")) {
+                        Scanner scanner = new Scanner(currentFile);
+                        if (scanner.findWithinHorizon(pattern, 0) != null) {
+                            String[] array = currentFile.getName().split("\\.");
+                            subscriber = getSubscriber(array[0]);
+                            subscriber.setAccount(getUserAccount(array[0]));
+                            ArrayList<Subscription> subscriptions = new ArrayList<>();
+                            subscriptions.add(getSubscription(array[0]));
+                            subscriber.setSubscriptions(subscriptions);
+                            break;
+                        }
+                        scanner.close();
                     }
-                    scanner.close();
                 }
             }
         }
         return subscriber;
+    }
+
+    private static List<Incident> getIncidents(String Path) throws IOException {
+        List<Incident> list = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(Path)))) {
+            for (String line; (line = br.readLine()) != null; ) {
+                String[] arr = line.split(" ");
+                try {
+                    String description = "";
+                    for (int i = 7; i < arr.length; i++) {
+                        description += arr[i] + " ";
+                    }
+                    if (!arr[0].isEmpty() && !arr[1].isEmpty())
+                        list.add(new Incident(DateHelper.stringToDate(arr[0], "dd/MM/yyyy"), DateHelper.stringToDate(arr[1], "HH:mm:ss"), description, Integer.parseInt(arr[3]), new NonSubscriber(arr[4] + " " + arr[5]), Boolean.valueOf(arr[6])));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return list;
+    }
+
+    public static List<Incident> getIncidents(Subscriber subscriber) throws IOException {
+        return getIncidents("src/files/" + subscriber.getAccount().getUsername() + "_incident.txt");
+    }
+
+    public static List<Incident> getAllIncidents() throws IOException {
+        return getIncidents("src/files/incidents.txt");
+    }
+
+    public static boolean employeeLogin(String name) throws IOException {
+        List<String> files = new ArrayList<>();
+        files.add("roadsideAssistanceEmployee");
+        files.add("truckEmployee");
+        files.add("truckEmployee2");
+        files.add("motorEmployee");
+        files.add("motorEmployee2");
+
+        for (String file : files) {
+            InputStream input = new BufferedInputStream(new FileInputStream("src/files/" + file + ".txt"));
+            byte[] buffer = new byte[8192];
+
+            try {
+                int i = 0;
+                for (int length = 0; (length = input.read(buffer)) != -1; ) {
+                    String[] split = new String(buffer).split(" ");
+                    String n = split[0] + " " + split[1];
+                    if (n.equals(name)) {
+                        return true;
+                    }
+                }
+            } finally {
+                input.close();
+            }
+        }
+
+        return false;
+    }
+
+    public static Technician getTechnician(String name) throws IOException {
+        List<String> files = new ArrayList<>();
+        files.add("roadsideAssistanceEmployee");
+        files.add("truckEmployee");
+        files.add("truckEmployee2");
+        files.add("motorEmployee");
+        files.add("motorEmployee2");
+
+        Technician technician = null;
+
+        for (String file : files) {
+            InputStream input = new BufferedInputStream(new FileInputStream("src/files/" + file + ".txt"));
+            byte[] buffer = new byte[8192];
+
+            try {
+                int i = 0;
+                for (int length = 0; (length = input.read(buffer)) != -1; ) {
+                    String[] split = new String(buffer).split(" ");
+                    String n = split[0] + " " + split[1];
+                    if (n.equals(name)) {
+                        technician = new Technician(n, split[2]);
+                    }
+                }
+            } finally {
+                input.close();
+            }
+        }
+        return technician;
     }
 }

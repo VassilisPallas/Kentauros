@@ -44,6 +44,10 @@ public class Controller implements Initializable {
     @FXML
     private Button callRoadsideAssistance;
 
+    @FXML
+    private Button roadAssistanceEmployeeLogin;
+
+
     private double pricePerMonth = 0, wholePrice = 0;
     private SubscriptionType type = SubscriptionType.SEMI;
     private Vehicle vehicle = null;
@@ -60,7 +64,7 @@ public class Controller implements Initializable {
         vehicleType.setItems(vehicleTypes);
         registerLink.setOnAction(event -> {
             try {
-                java.awt.Desktop.getDesktop().browse(new URI("http://www.yahoo.com"));
+                java.awt.Desktop.getDesktop().browse(new URI("http://localhost/KentaurosRegister"));
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -116,6 +120,14 @@ public class Controller implements Initializable {
         callRoadsideAssistance.setOnAction(event -> {
             try {
                 GoToOtherPage.roadsideAssistancePage(getClass(), (Stage) callRoadsideAssistance.getScene().getWindow(), null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        roadAssistanceEmployeeLogin.setOnAction(event -> {
+            try {
+                GoToOtherPage.employeeLoginPage(getClass(), (Stage) roadAssistanceEmployeeLogin.getScene().getWindow());
             } catch (IOException e) {
                 e.printStackTrace();
             }

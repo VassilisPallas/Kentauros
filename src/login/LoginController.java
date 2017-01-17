@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Giota on 16/1/2017.
+ * Created by User on 16/1/2017.
  */
 public class LoginController implements Initializable {
 

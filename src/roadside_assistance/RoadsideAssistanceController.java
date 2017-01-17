@@ -3,6 +3,7 @@ package roadside_assistance;
 import helpers.AlertBoxHelper;
 import helpers.FileHelper;
 import helpers.GoToOtherPage;
+import helpers.IncidentSameWeekWindowHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,11 +16,13 @@ import model.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Giota on 16/1/2017.
+ * Created by User on 16/1/2017.
  */
 public class RoadsideAssistanceController implements Initializable {
 
@@ -52,7 +55,7 @@ public class RoadsideAssistanceController implements Initializable {
         vehicleType.setItems(vehicleTypes);
         callIncident.setOnAction(event -> {
             if (validate()) {
-                if (subscriber  == null) {
+                if (subscriber == null) {
                     // to to register page
                     try {
                         Incident incident = new Incident(new Date(), new Date(), description.getText(), 0, subscriber, false);
@@ -61,13 +64,36 @@ public class RoadsideAssistanceController implements Initializable {
                         e.printStackTrace();
                     }
                 } else {
-                    Incident incident = new Incident(new Date(), new Date(), description.getText(), 0, subscriber, true);
+
                     try {
-                        saveIncident(incident, FileHelper.searchFilesForSubscriber(new File("src/files/"), subscriber.getName()));
+                        boolean alreadyCalledThisWeek = false;
+                        Subscriber newSubscriber = null;
+                        newSubscriber = FileHelper.searchFilesForSubscriber(new File("src/files/"), subscriber.getName());
+                        List<Incident> incidents = FileHelper.getIncidents(newSubscriber);
+                        for (Incident incident : incidents) {
+                            long startTime = new Date().getTime();
+                            long endTime = incident.getCallDate().getTime();
+                            long diffTime = endTime - startTime;
+                            long diffDays = diffTime / (1000 * 60 * 60 * 24);
+                            if (diffDays <= 7) {
+                                alreadyCalledThisWeek = true;
+                                break;
+                            }
+                        }
+
+                        boolean paid;
+                        if (alreadyCalledThisWeek) {
+                            do {
+                                paid = new IncidentSameWeekWindowHelper().pay();
+                            }while (!paid);
+                        }
+
+                        Incident incident = new Incident(new Date(), new Date(), description.getText(), 0, subscriber, true);
+                        saveIncident(incident, newSubscriber);
+                        AlertBoxHelper.infoBox("Νέο περιστατικό", "Το νέο περιστατικό αποθηκεύτηκε.");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    AlertBoxHelper.infoBox("Νέο περιστατικό", "Το νέο περιστατικό αποθηκεύτηκε.");
                 }
             }
         });
@@ -103,7 +129,7 @@ public class RoadsideAssistanceController implements Initializable {
         } else if (vehicle instanceof Truck) {
             vehicleType.getSelectionModel().select("Φορτηγό");
             vehicleType.setDisable(true);
-        } else if (vehicle instanceof Motorcycle){
+        } else if (vehicle instanceof Motorcycle) {
             vehicleType.getSelectionModel().select("Δίκυκλο");
             vehicleType.setDisable(true);
         }
@@ -127,15 +153,15 @@ public class RoadsideAssistanceController implements Initializable {
             username = subscriber.getAccount().getUsername();
         }
         if (FileHelper.fileExists(username + "_incident.txt")) {
-            FileHelper.appendToFile(username + "_incident", incident.toString());
+            FileHelper.appendToFile(username + "_incident.txt", incident.toString());
         } else {
-            FileHelper.saveFile(username + "_incident", incident.toString());
+            FileHelper.saveFile(username + "_incident.txt", incident.toString());
         }
 
         if (FileHelper.fileExists("incidents.txt")) {
-            FileHelper.appendToFile("incidents", incident.toString());
+            FileHelper.appendToFile("incidents.txt", incident.toString());
         } else {
-            FileHelper.saveFile("incidents", incident.toString());
+            FileHelper.saveFile("incidents.txt", incident.toString());
         }
     }
 }
