@@ -53,7 +53,7 @@ public class RoadsideAssistanceController implements Initializable {
                 if (subscriber  == null) {
                     // to to register page
                     try {
-                        Incident incident = new Incident(new Date(), new Date(), description.getText(), 0, subscriber);
+                        Incident incident = new Incident(new Date(), new Date(), description.getText(), 0, subscriber, false);
                         GoToOtherPage.registerPage(getClass(), (Stage) callIncident.getScene().getWindow(), null, wholePrice + 70, vehicle, incident);
                     } catch (IOException e) {
                         e.printStackTrace();

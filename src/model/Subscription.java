@@ -15,6 +15,9 @@ public class Subscription {
     private Date expirationDate;
     private Date paymentDate;
 
+    public Subscription() {
+    }
+
     public Subscription(SubscriptionType duration, double amount, Date registrationDate, Date expirationDate, Date paymentDate) {
         this.duration = duration;
         this.amount = amount;

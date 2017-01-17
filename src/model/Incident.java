@@ -15,13 +15,15 @@ public class Incident {
     private int vehiclePosition;
     private NonSubscriber nonSubscriber;
     private Core core;
+    private boolean isSubscriber;
 
-    public Incident(Date callDate, Date callTime, String description, int vehiclePosition, NonSubscriber nonSubscriber) {
+    public Incident(Date callDate, Date callTime, String description, int vehiclePosition, NonSubscriber nonSubscriber, boolean isSubscriber) {
         this.callDate = callDate;
         this.callTime = callTime;
         this.description = description;
         this.vehiclePosition = vehiclePosition;
         this.nonSubscriber = nonSubscriber;
+        this.isSubscriber = isSubscriber;
     }
 
     public Date getCallDate() {
@@ -82,12 +84,6 @@ public class Incident {
 
     @Override
     public String toString() {
-        System.out.println(DateHelper.dateFormat(callDate));
-        System.out.println(DateHelper.timeFormat(callDate));
-        System.out.println(DateHelper.dateFormat(confrontationTime));
-        System.out.println(vehiclePosition);
-        System.out.println(nonSubscriber.getName());
-        System.out.println(description);
-        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + description;
+        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + isSubscriber + " " + description;
     }
 }

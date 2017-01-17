@@ -1,15 +1,22 @@
 package login;
 
 import helpers.FileHelper;
+import helpers.GoToOtherPage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.Account;
+import model.Subscriber;
+import model.Subscription;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -33,7 +40,19 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loginButton.setOnAction(event -> {
             if (validate()) {
-                System.out.print("ok");
+                try {
+                    Account account = FileHelper.getUserAccount(username.getText());
+                    Subscriber subscriber = FileHelper.getSubscriber(username.getText());
+                    subscriber.setAccount(account);
+                    Subscription subscription = FileHelper.getSubscription(username.getText());
+                    List<Subscription> subscriptions = new ArrayList<>();
+                    subscriptions.add(subscription);
+                    subscriber.setSubscriptions(subscriptions);
+
+                    GoToOtherPage.profilePage(getClass(), (Stage) loginButton.getScene().getWindow(), subscriber, account, subscription);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

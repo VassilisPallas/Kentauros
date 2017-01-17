@@ -1,15 +1,13 @@
 package register;
 
-import helpers.AlertBoxHelper;
-import helpers.DateHelper;
-import helpers.FileHelper;
-import helpers.SubscriptionType;
+import helpers.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.*;
 
 import java.io.BufferedWriter;
@@ -94,22 +92,30 @@ public class RegisterController implements Initializable {
 
         registerButton.setOnAction(event -> {
             if (validate()) {
+                Subscription subscription = getSubscription();
                 List<Subscription> subscriptions = new ArrayList<>();
-                subscriptions.add(getSubscription());
+                subscriptions.add(subscription);
 
                 Subscriber subscriber = new Subscriber(firstName.getText() + " " + lastName.getText(), subscriptions, new Card(cardNumber.getText()), vehicle);
                 Account account = new Account(phone.getText(), email.getText(), username.getText(), password.getText(), new Date(), subscriber);
                 subscriber.setAccount(account);
 
-                NonSubscriber nonSubscriber = subscriber;
-                incident.setNonSubscriber(nonSubscriber);
                 saveUser(subscriber);
-                saveSubscription(getSubscription());
+                saveSubscription(subscription);
                 saveAccount(account);
-                saveIncident(incident, nonSubscriber);
+                saveVehicle();
+                if (incident != null) {
+                    incident.setNonSubscriber(subscriber);
+                    saveIncident(incident, subscriber);
+                }
+
                 AlertBoxHelper.infoBox("Δημιουργία Χρήστη", "Η δημιουργία και η πληρωμή ολοκληρώθηκε.");
 
-                // TODO: go to profile
+                try {
+                    GoToOtherPage.profilePage(getClass(), (Stage) registerButton.getScene().getWindow(), subscriber, account, subscription);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -245,11 +251,25 @@ public class RegisterController implements Initializable {
         FileHelper.saveFile(username.getText() + "_account", content);
     }
 
-    private void saveIncident(Incident incident, NonSubscriber subscriber) {
+    private void saveIncident(Incident incident, Subscriber subscriber) {
         String username = "";
         if (subscriber != null) {
-            username = subscriber.getName();
+            username = subscriber.getAccount().getUsername();
         }
-        FileHelper.saveFile(username + "_incident", incident.toString());
+        if (FileHelper.fileExists(username + "_incident.txt")) {
+            FileHelper.appendToFile(username + "_incident", incident.toString());
+        } else {
+            FileHelper.saveFile(username + "_incident", incident.toString());
+        }
+
+        if (FileHelper.fileExists("incidents.txt")) {
+            FileHelper.appendToFile("incidents", incident.toString());
+        } else {
+            FileHelper.saveFile("incidents", incident.toString());
+        }
+    }
+
+    private void saveVehicle(){
+        FileHelper.saveFile("vehicle_" + licencePlate.getText(), vehicle.getClass().getName() + " " + licencePlate.getText());
     }
 }

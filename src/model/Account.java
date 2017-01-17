@@ -15,6 +15,9 @@ public class Account {
     private Date registrationDate;
     private Subscriber owner;
 
+    public Account() {
+    }
+
     public Account(String phone, String email, String username, String password, Date registrationDate, Subscriber owner) {
         this.phone = phone;
         this.email = email;

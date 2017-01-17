@@ -26,13 +26,13 @@ public class DateHelper {
         return "-";
     }
 
-    private static Date stringToDate(String dateStr) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public static Date stringToDate(String dateStr, String fomrat) throws ParseException {
+        DateFormat format = new SimpleDateFormat(fomrat);
         return format.parse(dateStr);
     }
 
     private static Date parseDate(LocalDate futureDate) throws ParseException {
-        return new SimpleDateFormat("YYYY-MM-dd").parse(futureDate.toString());
+        return new SimpleDateFormat("yyyy-MM-dd").parse(futureDate.toString());
     }
 
     public static Date addMonths(int months) throws ParseException {

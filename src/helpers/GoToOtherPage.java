@@ -4,8 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Incident;
-import model.Vehicle;
+import model.*;
+import profile.ProfileController;
 import register.RegisterController;
 
 import java.io.IOException;
@@ -40,6 +40,17 @@ public class GoToOtherPage {
         Parent sceneMain = loader.load();
 
         stage.setTitle("Κλήση Οδικής Βοήθειας");
+        Scene scene = new Scene(sceneMain, 360, 300);
+        stage.setScene(scene);
+    }
+
+    public static void profilePage(Class clazz, Stage stage, Subscriber subscriber, Account account, Subscription subscription) throws IOException {
+        FXMLLoader loader = new FXMLLoader(clazz.getResource("/profile/profile.fxml"));
+        Parent sceneMain = loader.load();
+        ProfileController controller = loader.getController();
+        controller.getData(subscriber, account, subscription);
+
+        stage.setTitle("Προφίλ");
         Scene scene = new Scene(sceneMain, 360, 300);
         stage.setScene(scene);
     }

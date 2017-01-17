@@ -11,6 +11,10 @@ public class Subscriber extends NonSubscriber {
     private Account account;
     private Vehicle vehicle;
 
+    public Subscriber(String name) {
+        super(name);
+    }
+
     public Subscriber(String name, List<Subscription> subscriptions, Card card, Vehicle vehicle) {
         super(name);
         this.subscriptions = subscriptions;
@@ -52,6 +56,6 @@ public class Subscriber extends NonSubscriber {
 
     @Override
     public String toString() {
-        return super.getName() + " " + card.getCardNumber();
+        return super.getName() + " " + card.getCardNumber() + " " + vehicle.licensePlate;
     }
 }
