@@ -95,7 +95,7 @@ public class RegisterController implements Initializable {
                 Subscription subscription = getSubscription();
                 List<Subscription> subscriptions = new ArrayList<>();
                 subscriptions.add(subscription);
-
+                vehicle.licensePlate = licencePlate.getText();
                 Subscriber subscriber = new Subscriber(firstName.getText() + " " + lastName.getText(), subscriptions, new Card(cardNumber.getText()), vehicle);
                 Account account = new Account(phone.getText(), email.getText(), username.getText(), password.getText(), new Date(), subscriber);
                 subscriber.setAccount(account);
@@ -269,7 +269,7 @@ public class RegisterController implements Initializable {
         }
     }
 
-    private void saveVehicle(){
-        FileHelper.saveFile("vehicle_" + licencePlate.getText(), vehicle.getClass().getName() + " " + licencePlate.getText());
+    private void saveVehicle() {
+        FileHelper.saveFile("vehicle_" + licencePlate.getText(), vehicle.getClass().getName().replace("model.", "") + " " + licencePlate.getText());
     }
 }

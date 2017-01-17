@@ -1,14 +1,18 @@
 package profile;
 
 import helpers.DateHelper;
+import helpers.GoToOtherPage;
+import helpers.SubscribeWindowHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import model.Account;
 import model.Subscriber;
 import model.Subscription;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,11 +41,15 @@ public class ProfileController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         newSubscription.setOnAction(event -> {
-
+            subscription = new SubscribeWindowHelper().subscribe("Ανανέωση Συνδρομής", subscriber, subscription);
         });
 
         newIncident.setOnAction(event -> {
-
+            try {
+                GoToOtherPage.roadsideAssistancePage(getClass(), (Stage) newIncident.getScene().getWindow(), subscriber, subscriber.getVehicle());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

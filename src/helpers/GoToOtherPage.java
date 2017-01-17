@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import model.*;
 import profile.ProfileController;
 import register.RegisterController;
+import roadside_assistance.RoadsideAssistanceController;
 
 import java.io.IOException;
 
@@ -35,9 +36,12 @@ public class GoToOtherPage {
         stage.setScene(scene);
     }
 
-    public static void roadsideAssistancePage(Class clazz, Stage stage) throws IOException {
+    public static void roadsideAssistancePage(Class clazz, Stage stage, Subscriber subscriber, Vehicle vehicle) throws IOException {
         FXMLLoader loader = new FXMLLoader(clazz.getResource("/roadside_assistance/roadside_assistance.fxml"));
         Parent sceneMain = loader.load();
+        RoadsideAssistanceController controller = loader.getController();
+        controller.getData(subscriber, vehicle);
+
 
         stage.setTitle("Κλήση Οδικής Βοήθειας");
         Scene scene = new Scene(sceneMain, 360, 300);
@@ -51,7 +55,7 @@ public class GoToOtherPage {
         controller.getData(subscriber, account, subscription);
 
         stage.setTitle("Προφίλ");
-        Scene scene = new Scene(sceneMain, 360, 300);
+        Scene scene = new Scene(sceneMain, 380, 300);
         stage.setScene(scene);
     }
 }

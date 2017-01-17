@@ -3,7 +3,7 @@ package helpers;
 import model.*;
 
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by Giota on 16/1/2017.
@@ -97,19 +97,22 @@ public class FileHelper {
                 subscriber.setCard(new Card(split[2]));
 
                 String licencePlate = "";
-                for (int i = 2; i < split.length; i++) {
-                    licencePlate += split[i];
+                for (int i = 3; i < split.length; i++) {
+                    licencePlate += split[i] + " ";
                 }
 
-                subscriber.setVehicle(getVehicle(licencePlate));
+                subscriber.setVehicle(getVehicle(licencePlate.trim()));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             input.close();
             return subscriber;
         }
     }
 
-    public static Vehicle getVehicle(String licencePlate) throws IOException {
+    private static Vehicle getVehicle(String licencePlate) throws IOException {
+        System.out.print("src/files/" + "vehicle_" + licencePlate + ".txt");
         Vehicle vehicle = null;
         InputStream input = new BufferedInputStream(new FileInputStream("src/files/" + "vehicle_" + licencePlate + ".txt"));
         byte[] buffer = new byte[8192];
@@ -145,7 +148,7 @@ public class FileHelper {
         try {
             for (int length = 0; (length = input.read(buffer)) != -1; ) {
                 String[] split = new String(buffer).split(" ");
-                switch (split[0]){
+                switch (split[0]) {
                     case "semi":
                         subscription.setDuration(SubscriptionType.SEMI);
                         break;
@@ -162,5 +165,36 @@ public class FileHelper {
             input.close();
             return subscription;
         }
+    }
+
+    public static Subscriber searchFilesForSubscriber(File file, String pattern) throws IOException {
+
+        Subscriber subscriber = null;
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException("file has to be a directory");
+        }
+
+        File[] files = file.listFiles();
+
+        if (files != null) {
+            for (File currentFile : files) {
+                if (currentFile.isDirectory()) {
+                    searchFilesForSubscriber(currentFile, pattern);
+                } else {
+                    Scanner scanner = new Scanner(currentFile);
+                    if (scanner.findWithinHorizon(pattern, 0) != null) {
+                        String[] array = currentFile.getName().split("\\.");
+                        subscriber = getSubscriber(array[0]);
+                        subscriber.setAccount(getUserAccount(array[0]));
+                        ArrayList<Subscription> subscriptions = new ArrayList<>();
+                        subscriptions.add(getSubscription(array[0]));
+                        subscriber.setSubscriptions(subscriptions);
+                        break;
+                    }
+                    scanner.close();
+                }
+            }
+        }
+        return subscriber;
     }
 }

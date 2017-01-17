@@ -115,7 +115,7 @@ public class Controller implements Initializable {
 
         callRoadsideAssistance.setOnAction(event -> {
             try {
-                GoToOtherPage.roadsideAssistancePage(getClass(), (Stage) callRoadsideAssistance.getScene().getWindow());
+                GoToOtherPage.roadsideAssistancePage(getClass(), (Stage) callRoadsideAssistance.getScene().getWindow(), null, null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -124,10 +124,10 @@ public class Controller implements Initializable {
 
     private void calculatePrice(double pricePerMonth, SubscriptionType type) {
         switch (type) {
-            case SEMI:
+            case ANNUAL:
                 wholePrice = (pricePerMonth * 12) - ((pricePerMonth * 12) * 0.05);
                 break;
-            case ANNUAL:
+            case SEMI:
                 wholePrice = pricePerMonth * 12;
                 break;
         }
