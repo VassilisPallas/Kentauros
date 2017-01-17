@@ -85,6 +85,6 @@ public class Incident {
 
     @Override
     public String toString() {
-        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callDate) + " " + DateHelper.dateFormat(confrontationTime) + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + isSubscriber + " " + description;
+        return DateHelper.dateFormat(callDate) + " " + DateHelper.timeFormat(callTime) + " " + DateHelper.dateFormat(confrontationTime) + " " + vehiclePosition + " " + nonSubscriber.getName() + " " + isSubscriber + " " + description;
     }
 }

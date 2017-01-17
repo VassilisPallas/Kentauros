@@ -15,6 +15,11 @@ public class Station {
     private Technician technician3;
     private Technician technician4;
 
+    public Station(String city, String address) {
+        this.city = city;
+        this.address = address;
+    }
+
     public String getCity() {
         return city;
     }

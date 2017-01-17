@@ -15,4 +15,13 @@ public class AlertBoxHelper {
 
         alert.showAndWait();
     }
+
+    public static void errorBox(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
+    }
 }

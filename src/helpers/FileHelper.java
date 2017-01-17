@@ -183,7 +183,7 @@ public class FileHelper {
                 if (currentFile.isDirectory()) {
                     searchFilesForSubscriber(currentFile, pattern);
                 } else {
-                    if (!currentFile.getName().contains("incident")) {
+                    if (!currentFile.getName().toLowerCase().contains("incident")) {
                         Scanner scanner = new Scanner(currentFile);
                         if (scanner.findWithinHorizon(pattern, 0) != null) {
                             String[] array = currentFile.getName().split("\\.");
@@ -228,8 +228,8 @@ public class FileHelper {
         return getIncidents("src/files/" + subscriber.getAccount().getUsername() + "_incident.txt");
     }
 
-    public static List<Incident> getAllIncidents() throws IOException {
-        return getIncidents("src/files/incidents.txt");
+    public static List<Incident> getAllIncidents(String path) throws IOException {
+        return getIncidents(path);
     }
 
     public static boolean employeeLogin(String name) throws IOException {

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,7 +13,7 @@ public class RoadsideAssistance {
     private Station station1;
     private Station station2;
     private Station station3;
-    private Set<Vehicle> vehicle;
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -53,11 +55,27 @@ public class RoadsideAssistance {
         this.station3 = station3;
     }
 
-    public Set<Vehicle> getVehicle() {
-        return vehicle;
+    public List<Vehicle> getVehicle() {
+        return vehicles;
     }
 
-    public void setVehicle(Set<Vehicle> vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicle(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public void setVehicles(Vehicle vehicle){
+        vehicles.add(vehicle);
+    }
+
+    public boolean canCarry() {
+        int automobileCount = 0, motorCount = 0;
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle instanceof Automobile)
+                automobileCount++;
+            else if (vehicle instanceof Motorcycle)
+                motorCount++;
+        }
+
+        return (automobileCount == 2 && motorCount == 0) || (automobileCount == 0 && motorCount == 4) || (automobileCount == 1 && motorCount == 2) || (automobileCount == 1 || motorCount == 1);
     }
 }
